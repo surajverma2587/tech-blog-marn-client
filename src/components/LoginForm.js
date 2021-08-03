@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
 import { useMutation } from "@apollo/client";
 import { useHistory } from "react-router-dom";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 
 import { LOGIN } from "../mutations";
+import ErrorModal from "./ErrorModal";
 
-const LoginForm = (props) => {
+const LoginForm = () => {
+  let history = useHistory();
+
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -30,8 +32,6 @@ const LoginForm = (props) => {
       handleShow();
     },
   });
-
-  let history = useHistory();
 
   const onSubmit = async (formData) => {
     await login({
@@ -73,26 +73,12 @@ const LoginForm = (props) => {
         </Button>
       </div>
       {error && (
-        <Modal
+        <ErrorModal
           show={show}
-          onHide={handleClose}
-          backdrop="static"
-          keyboard={false}
-        >
-          <Modal.Header closeButton>
-            <Modal.Title>Modal title</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            I will not close if you click outside me. Don't even try to press
-            escape key.
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
-            </Button>
-            <Button variant="primary">Understood</Button>
-          </Modal.Footer>
-        </Modal>
+          handleClose={handleClose}
+          title="Login Failed"
+          message="Please enter the correct email address and/or password."
+        />
       )}
     </Form>
   );

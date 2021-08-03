@@ -3,7 +3,7 @@ import Container from "react-bootstrap/Container";
 import Header from "../components/Header";
 import SignUpForm from "../components/SignUpForm";
 
-const SignUp = (props) => {
+const SignUp = () => {
   return (
     <Container>
       <Header title="Sign Up" />

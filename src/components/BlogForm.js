@@ -7,7 +7,12 @@ const BlogForm = ({ title, content }) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      title,
+      content,
+    },
+  });
 
   const onSubmit = (data) => console.log(data);
 
@@ -17,7 +22,6 @@ const BlogForm = ({ title, content }) => {
         <Form.Control
           type="text"
           placeholder="Enter blog title"
-          value={title}
           {...register("title", { required: true })}
         />
         {errors.title && (
@@ -31,7 +35,6 @@ const BlogForm = ({ title, content }) => {
           as="textarea"
           placeholder="Enter blog content"
           {...register("content", { required: true })}
-          value={content}
         />
         {errors.content && (
           <Form.Text className="text-danger">

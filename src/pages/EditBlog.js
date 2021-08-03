@@ -3,7 +3,7 @@ import Container from "react-bootstrap/Container";
 import Header from "../components/Header";
 import BlogForm from "../components/BlogForm";
 
-const EditBlog = (props) => {
+const EditBlog = () => {
   return (
     <Container>
       <Header title="Edit Blog" />

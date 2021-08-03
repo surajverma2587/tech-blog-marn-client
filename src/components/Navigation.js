@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 
 import useUserContext from "../hooks/useUserContext";
 
-const Navigation = (props) => {
+const Navigation = () => {
   const { isLoggedIn } = useUserContext();
 
   return (
