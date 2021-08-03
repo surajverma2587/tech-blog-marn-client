@@ -28,7 +28,13 @@ export const SIGNUP = gql`
   }
 `;
 
-// export const CREATE_BLOG = gql``;
+export const CREATE_BLOG = gql`
+  mutation Mutation($createBlogInput: BlogInput!) {
+    createBlog(input: $createBlogInput) {
+      id
+    }
+  }
+`;
 
 // export const UPDATE_BLOG = gql``;
 
