@@ -6,27 +6,27 @@ import SignUp from "./pages/SignUp";
 import CreateBlog from "./pages/CreateBlog";
 import EditBlog from "./pages/EditBlog";
 import Home from "./pages/Home";
-import useUserContext from "./hooks/useUserContext";
+import { useUserContext } from "./contexts/UserProvider";
 
 const Routes = () => {
-  const { isLoggedIn } = useUserContext();
+  const { state, dispatch } = useUserContext();
 
   return (
     <Switch>
       <Route path="/my-blogs">
-        {isLoggedIn ? <MyBlogs /> : <Redirect to="/login" />}
+        {state.user ? <MyBlogs /> : <Redirect to="/login" />}
       </Route>
       <Route path="/login">
-        {!isLoggedIn ? <Login /> : <Redirect to="/" />}
+        {!state.user ? <Login /> : <Redirect to="/" />}
       </Route>
       <Route path="/sign-up">
-        {!isLoggedIn ? <SignUp /> : <Redirect to="/" />}
+        {!state.user ? <SignUp /> : <Redirect to="/" />}
       </Route>
       <Route path="/create-blog">
-        {isLoggedIn ? <CreateBlog /> : <Redirect to="/login" />}
+        {state.user ? <CreateBlog /> : <Redirect to="/login" />}
       </Route>
       <Route path="/edit-blog">
-        {isLoggedIn ? <EditBlog /> : <Redirect to="/login" />}
+        {state.user ? <EditBlog /> : <Redirect to="/login" />}
       </Route>
       <Route path="/">
         <Home />

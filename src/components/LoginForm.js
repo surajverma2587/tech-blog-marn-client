@@ -7,9 +7,11 @@ import Button from "react-bootstrap/Button";
 
 import { LOGIN } from "../mutations";
 import ErrorModal from "./ErrorModal";
+import { useUserContext } from "../contexts/UserProvider";
 
 const LoginForm = () => {
   let history = useHistory();
+  const { dispatch } = useUserContext();
 
   const [show, setShow] = useState(false);
 
@@ -22,9 +24,22 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm();
 
-  const [login, { data, error }] = useMutation(LOGIN, {
-    onCompleted: () => {
-      localStorage.setItem("user", JSON.stringify(data.login));
+  const [login, { error }] = useMutation(LOGIN, {
+    onCompleted: (data) => {
+      const payload = {
+        token: data.login.token,
+        email: data.login.user.email,
+        firstName: data.login.user.firstName,
+        lastName: data.login.user.lastName,
+        id: data.login.user.id,
+      };
+
+      localStorage.setItem("user", JSON.stringify(payload));
+
+      dispatch({
+        type: "LOGIN",
+        payload,
+      });
 
       history.push("/");
     },
