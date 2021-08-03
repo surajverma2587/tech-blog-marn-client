@@ -5,11 +5,11 @@ import { useHistory } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-import { CREATE_BLOG } from "../mutations";
+import { CREATE_BLOG, UPDATE_BLOG } from "../mutations";
 import { useUserContext } from "../contexts/UserProvider";
 import ErrorModal from "./ErrorModal";
 
-const BlogForm = ({ title, content }) => {
+const BlogForm = ({ title, content, id, type }) => {
   let history = useHistory();
 
   const { state } = useUserContext();
@@ -30,7 +30,16 @@ const BlogForm = ({ title, content }) => {
     },
   });
 
-  const [createBlog, { data, error, loading }] = useMutation(CREATE_BLOG, {
+  const [createBlog, { error: createError }] = useMutation(CREATE_BLOG, {
+    onCompleted: () => {
+      history.push("/my-blogs");
+    },
+    onError: () => {
+      handleShow();
+    },
+  });
+
+  const [updateBlog, { error: updateError }] = useMutation(UPDATE_BLOG, {
     onCompleted: () => {
       history.push("/my-blogs");
     },
@@ -40,15 +49,30 @@ const BlogForm = ({ title, content }) => {
   });
 
   const onSubmit = async (formData) => {
-    await createBlog({
-      variables: {
-        createBlogInput: {
-          title: formData.title,
-          content: formData.content,
-          user: state.user.id,
+    if (type === "create") {
+      await createBlog({
+        variables: {
+          createBlogInput: {
+            title: formData.title,
+            content: formData.content,
+            user: state.user.id,
+          },
         },
-      },
-    });
+      });
+    }
+
+    if (type === "edit") {
+      await updateBlog({
+        variables: {
+          updateBlogInput: {
+            title: formData.title,
+            content: formData.content,
+            user: state.user.id,
+            id,
+          },
+        },
+      });
+    }
   };
 
   return (
@@ -82,12 +106,12 @@ const BlogForm = ({ title, content }) => {
           Submit
         </Button>
       </div>
-      {error && (
+      {(createError || updateError) && (
         <ErrorModal
           show={show}
           handleClose={handleClose}
           title="Operation Failed"
-          message="Failed to create a blog!!"
+          message={`Failed to ${type} a blog!!`}
         />
       )}
     </Form>

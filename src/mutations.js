@@ -36,6 +36,20 @@ export const CREATE_BLOG = gql`
   }
 `;
 
-// export const UPDATE_BLOG = gql``;
+export const UPDATE_BLOG = gql`
+  mutation Mutation($updateBlogInput: BlogInput!) {
+    updateBlog(input: $updateBlogInput) {
+      id
+      title
+      content
+      user {
+        id
+        firstName
+        lastName
+        email
+      }
+    }
+  }
+`;
 
 // export const DELETE_BLOG = gql``;

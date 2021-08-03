@@ -7,7 +7,7 @@ const CreateBlog = () => {
   return (
     <Container>
       <Header title="Create Blog" />
-      <BlogForm />
+      <BlogForm type="create" />
     </Container>
   );
 };

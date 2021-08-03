@@ -13,19 +13,19 @@ const Routes = () => {
 
   return (
     <Switch>
-      <Route path="/my-blogs">
+      <Route exact path="/my-blogs">
         {state.user ? <MyBlogs /> : <Redirect to="/login" />}
       </Route>
-      <Route path="/login">
+      <Route exact path="/login">
         {!state.user ? <Login /> : <Redirect to="/" />}
       </Route>
-      <Route path="/sign-up">
+      <Route exact path="/sign-up">
         {!state.user ? <SignUp /> : <Redirect to="/" />}
       </Route>
-      <Route path="/create-blog">
+      <Route exact path="/create-blog">
         {state.user ? <CreateBlog /> : <Redirect to="/login" />}
       </Route>
-      <Route path="/edit-blog">
+      <Route exact path="/edit-blog/:blogId">
         {state.user ? <EditBlog /> : <Redirect to="/login" />}
       </Route>
       <Route path="/">
